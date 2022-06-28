@@ -25,8 +25,8 @@ mongoose.connect(`mongodb+srv://${process.env.NAME}:${process.env.PASSWORD}@clus
 
 app.use(express.urlencoded({ extended: true }));
 
-// const userRoutes = require('./routes/user');            
-// app.use('/api/auth', userRoutes);
+const userRoutes = require('./routes/user');            
+app.use('/api/auth', userRoutes);
 // const stuffRoutes = require('./routes/stuff');
 // app.use('/api', stuffRoutes);
 

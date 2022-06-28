@@ -2,8 +2,8 @@ const dotenv = require('dotenv');
 const result = dotenv.config();
 
 const http = require('http');
-const app = require('./back/app');
-const mongoose = require("./back/app");
+const app = require('./app');
+const mongoose = require("./app");
 
 const normalizePort = val => {
   const port = parseInt(val, 10);
