@@ -3,7 +3,8 @@ const uniqueValidator = require('mongoose-unique-validator');                  /
 
 const userSchema = mongoose.Schema({                                     // on declare usershema puis on dit qu'un email sera de type string qu'il sera unique est sera obligatoire
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  password: { type: String, required: true } ,
+  role : {type: String, default:"salarie"}
 });
 
 userSchema.plugin(uniqueValidator);

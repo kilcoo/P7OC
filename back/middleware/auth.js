@@ -2,17 +2,21 @@ const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(' ')[1];                      // on recupere le token dans le header sa retournera un tableau
-    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');              // on decode le token puis on verifie le token avec jwt
-    const userId = decodedToken.userId;                                         // on recupere le userid qu'il y a dans la clee
-    if (req.body.userId && req.body.userId !== userId) {                        // on verifie si il correspond a celui qu'il y a dans le token
-      throw 'Invalid user ID';                                                  // si pas valide on enverra un invalid user id
+    const token = req.headers.authorization.split(' ')[1];                      
+    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');              
+    const userId = decodedToken.userId;   
+    const role = decodedToken.role;
+    console.log(role)
+    console.log(userId)
+    req.auth ={userId,role}
+    if (req.body.userId && req.body.userId !== userId && role !== "admin") {                        
+      throw 'Invalid user ID';     
     } else {
-      next();                                                                   // sinon on ira au prochain middleware
+      next();                                                              
     }
-  } catch {                                   // si y'a error
+  } catch {                                   
     res.status(401).json({
-      error: new Error('Invalid request!')
+      error:'Invalid request!'
     });
   }
 };

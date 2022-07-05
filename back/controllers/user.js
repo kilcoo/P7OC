@@ -7,7 +7,8 @@ exports.signup = (req, res, next) => {                          // un middleware
     .then(hash => {
       const user = new User({
         email: req.body.email,
-        password: hash
+        password: hash,
+        role: "salarie"
       }); 
       user.save()                                                                   // on sauvegarde les infos
         .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))        // si il a ete cree alors donne le code 201 pour dire que c'est bon
@@ -26,11 +27,14 @@ exports.login = (req, res, next) => {                                           
         .then(valid => {
           if (!valid) {                                                         // si pas valid on enverra l'erreur 401
             return res.status(401).json({ error: 'Mot de passe incorrect !' });
-          }                                                                     // sinon un code 200 pour dire que c'est bon
+          } 
+          const userId = user._id
+          const role = user.role.toString()
           res.status(200).json({                 
-            userId: user._id,
+            userId: userId,
+            role: role,
             token: jwt.sign(
-              { userId: user._id },
+              { userId: user._id ,role:role},
               'RANDOM_TOKEN_SECRET',
               { expiresIn: '24h' }
             )
