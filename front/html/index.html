@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groupomania</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script src="/front/js/vue.js"></script>
+    <link rel="stylesheet" href="/front/css/style.css">
+    
+</head>
+<body>
+    <header>
+        <img id="logo" src="/front/image/logo/icon-left-font-monochrome-black.png" alt="">
+    </header>
+    <div id="app">
+        <button id="signup">s'inscire</button>
+        <button id="login">se connecter</button>
+
+
+
+
+
+
+
+        <!-- <label for="Email">Email: </label>
+        <input type="text" required>
+        <div>
+            <label for="pass">Password:</label>
+            <input type="password" id="pass" name="password" minlength="8" required> -->
+            <router-view></router-view>
+        </div>
+    
+</body>
+</html>

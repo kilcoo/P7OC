@@ -1,0 +1,13 @@
+body {
+    background-color: beige;
+}
+header {
+    width: 100%;
+}
+#logo {
+    padding-left: 40%;
+    width: 20%;
+  }
+#log1 {
+    margin: 0 10% 0 40%;
+}
