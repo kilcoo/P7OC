@@ -1,70 +1,123 @@
 <template>
-    <div id="signup">
-        <div id="info">
-            <h2>bienvenue sur la page d'inscription de Groupomania !!!</h2>
-        </div>
-        <div id="form">
-            <label for="email">Email: </label>
-            <input v-model="email" type="email" name="email" id="email" required>
-            <br>
+  <div>
+      <img src="../assets/icon-left-font-monochrome-black.png" />
+            <nav>
+                <router-link to="/login">se connecter</router-link> |
+                <router-link to="/signup">s'inscrire</router-link>
+            </nav>
+            <h2>Bienvenue sur Groupomania</h2>
+            <p>veuillez remplir les champs si dessous.</p>
+      <Form @submit="handleRegister" :validation-schema="schema">
+        <div v-if="!successful">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <Field name="email" type="email" class="form-control" />
+            <ErrorMessage name="email" class="error-feedback" />
+          </div>
+          <div class="form-group">
             <label for="password">Mot de passe</label>
-            <input v-model="password" type="password" name="password" id="password" required>
-            <div id="btn">
-                <button @click="handleSubmit">s'inscrire</button>
-            </div>
+            <Field name="password" type="password" class="form-control" />
+            <ErrorMessage name="password" class="error-feedback" />
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary btn-block" :disabled="loading">
+              <span
+                v-show="loading"
+                class="spinner-border spinner-border-sm"
+              ></span>
+              <span @click="handleRegister" >S'inscrire</span>
+            </button>
+          </div>
         </div>
+      </Form>
+      <div
+        v-if="message"
+        class="alert"
+        :class="successful ? 'alert-success' : 'alert-danger'"
+      >
+        {{ message }}
+      </div>
     </div>
 </template>
-
-<script> 
-import axios from "axios";
+<script>
+import { Form, Field, ErrorMessage } from "vee-validate";
+import * as yup from "yup";
 export default {
-    name: 's\'inscrire',
-    data() {
-        return {
-            email: "",
-            password: ""
-        }
+  name: "signup",
+  components: {
+    Form,
+    Field,
+    ErrorMessage,
+  },
+  data() {
+    const schema = yup.object().shape({
+      email: yup
+        .string()
+        .required("Email requis ")
+        .email("Email incorrect"),
+      password: yup
+        .string()
+        .required("Mot de passe requis ")
+    });
+    return {
+      successful: false,
+      loading: false,
+      message: "",
+      schema,
+    };
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
     },
-    methods: {
-        handleSubmit() {
-            let newUser = {
-                email: this.email,
-                password: this.password
-            }
-            axios.post('http://localhost:3000/api/auth/signup', newUser)
-            .then(res =>{
-                if (res.status === 201){
-                localStorage.setItem('token', res.data.token);
-                this.$router.push('/groupomania')
-            } 
-            })
-        }
+  },
+  mounted() {
+    if (this.loggedIn) {
+      this.$router.push("/groupomania");
     }
-}
-
-
+  },
+  methods: {
+    handleRegister(user) {
+      this.message = "";
+      this.successful = false;
+      this.loading = true;
+      this.$store.dispatch("auth/register", user).then(
+        (data) => {
+          this.message = data.message;
+          this.successful = true;
+          this.loading = false;
+        },
+        (error) => {
+          this.message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+          this.successful = false;
+          this.loading = false;
+        }
+      );
+    },
+  },
+};
 </script>
 
+
 <style scoped>
-#signup {
+nav a{
+    color: black;
+}
+nav a.router-link-exact-active {
+  color: #42b983;
+}
+
+img{
+    width: 30%;
+}
+.form-group{
+    width: 40%;
     margin: auto;
-    padding-bottom:10% ;
-    border: 3px black solid;
-    border-radius: 10px;
-    width: 25%;
-    background-color: beige;
-}
-form {
-    display: flex;
-    flex-direction: column;
-}
-#btn{
-	float:right;
-    padding:8px 12px;
-    margin:25% 1% 0 0;
-    color:#5a5a6e;
-    cursor:pointer;
-    transition:all .3s
+    padding-bottom: 5px;
 }
 </style>
