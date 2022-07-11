@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const path = require("path")
+const path = require("path");
+const cors = require("cors");
+const bodyParser = require("body-parser");
 
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');   
@@ -15,6 +17,9 @@ mongoose.connect(`mongodb+srv://${process.env.NAME}:${process.env.PASSWORD}@clus
   .catch(() => console.log('Connexion à MongoDB échouée !'));         // si la connexion a echouer
 
 const app = express();
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
 
 app.use((req, res, next) => {                                                                  // permet de donner les acces a tout le monde
   res.setHeader('Access-Control-Allow-Origin', '*');

@@ -3,27 +3,50 @@
         <div id="info">
             <h2>Content de vous revoir !</h2>
         </div>
-        <div id="form">
+        <form id="form">
             <label for="email">Email: </label>
-            <input type="email" name="email" id="email" required>
+            <input v-model="email" type="email" name="email" id="email" required>
             <br>
             <label for="password">Mot de passe</label>
-            <input type="password" name="password" id="password" required>
-           </div>
+            <input v-model="password" type="password" name="password" id="password" required>
             <div id="btn">
-                <button>se connecter</button>
+                <button @click="login">se connecter</button>
             </div>
-        </div>
+        </form>
+    </div>
 </template>
 
 <script>
-export default{
-    name : 'se connecter'
+import axios from "axios";
+export default {
+    name: 'se connecter',
+    data() {
+        return {
+            email: "",
+            password: ""
+        }
+    },
+    methods: {
+        login() {
+            let user = {
+                email:this.email,
+                password:this.password
+            }
+        axios.post('http://localhost:3000/api/auth/login', user)
+        .then(res => {
+            if (res.status === 200){
+                localStorage.setItem('token', res.data.token);
+                this.$router.push('/groupomania')
+            } 
+            })
+        }
+    }
 }
+ 
 </script>
 
 <style scoped>
-#form {
+form {
     display: flex;
     flex-direction: column;
 }
