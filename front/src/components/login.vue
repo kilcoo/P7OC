@@ -26,7 +26,7 @@
             </div>
             <div class="form-group">
                 <div v-if="message" class="alert alert-danger" role="alert">
-                    {{ message }}
+                    {{ "Email ou Mot de passe incorrect" }}
                 </div>
             </div>
         </Form>
@@ -45,7 +45,7 @@ export default {
   },
   data() {
     const schema = yup.object().shape({
-      username: yup.string().required("email requis"),
+      email: yup.string().required("email requis"),
       password: yup.string().required("Mot de passe requis"),
     });
     return {
@@ -66,6 +66,7 @@ export default {
   },
   methods: {
     handleLogin(user) {
+      console.log(user)
       this.loading = true;
       this.$store.dispatch("auth/login", user).then(
         () => {
@@ -94,9 +95,8 @@ nav a{
 nav a.router-link-exact-active {
   color: #42b983;
 }
-
 img{
-    width: 30%;
+  width: 20%;
 }
 .form-group{
     width: 40%;

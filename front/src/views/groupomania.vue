@@ -1,10 +1,16 @@
 <template>
 <div>
-   <h1>bienvenue sur groupomania</h1>  
+   <Nav/>
 </div>
 </template>
 <script>
+import Nav from '../components/nav.vue';
+
 export default {
-    name: "groupomania"
-}
+
+components:{
+    Nav
+ }
+};
+
 </script>

@@ -7,8 +7,9 @@ export default {
   name: 'logo',
 }
 </script>
-<style>
+<style scoped>
 img {
   width: 20%;
 }
+
 </style>

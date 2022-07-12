@@ -85,6 +85,7 @@ export default {
         (data) => {
           this.message = data.message;
           this.successful = true;
+          this.$router.push("/login");
           this.loading = false;
         },
         (error) => {
@@ -111,9 +112,8 @@ nav a{
 nav a.router-link-exact-active {
   color: #42b983;
 }
-
 img{
-    width: 30%;
+  width: 20%;
 }
 .form-group{
     width: 40%;
