@@ -9,6 +9,11 @@
             <p>veuillez remplir les champs si dessous.</p>
       <Form @submit="handleRegister" :validation-schema="schema">
         <div v-if="!successful">
+        <div class="form-group">
+            <label for="username">Nom d'utilisateur</label>
+            <Field name="username" type="username" class="form-control" />
+            <ErrorMessage name="username" class="error-feedback" />
+          </div>
           <div class="form-group">
             <label for="email">Email</label>
             <Field name="email" type="email" class="form-control" />
@@ -51,6 +56,9 @@ export default {
   },
   data() {
     const schema = yup.object().shape({
+      username: yup
+        .string()
+        .required("Nom d'utilisateur requis "),
       email: yup
         .string()
         .required("Email requis ")
@@ -78,6 +86,7 @@ export default {
   },
   methods: {
     handleRegister(user) {
+      console.log(user)
       this.message = "";
       this.successful = false;
       this.loading = true;

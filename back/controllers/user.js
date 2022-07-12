@@ -1,6 +1,9 @@
 const User = require('../models/userModels')                           // on demande d'utiliser le models dans user models
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');                                // on demande d'utiliser bcrypt pour crypter les donnees
+const { modifyPost } = require('./post');
+const auth = require('../middleware/auth');
+const { profile } = require('console');
 
 
 exports.signup = (req, res, next) => {     // un middleware pour pouvoir s'inscrire                         
@@ -12,9 +15,12 @@ exports.signup = (req, res, next) => {     // un middleware pour pouvoir s'inscr
   bcrypt.hash(req.body.password, 10)                            // on demande de crypter les donnees
     .then(hash => {
       const user = new User({
+        username : req.body.username,
         email: req.body.email,
         password: hash,
-        role: "salarie"
+        role: "salarie",
+        bio : null,
+        profilePicture: null ,
       }); 
       user.save()                                                                   // on sauvegarde les infos
         .then(() => {
@@ -52,4 +58,26 @@ exports.login = (req, res, next) => {                                           
         .catch(error => res.status(500).json({ error }));
     })
     .catch(error => res.status(500).json({ error }));
+};
+exports.modifyPicture = (req, res, next) => {
+  User.findOne({ userId: req.body.userId }).then((user) => {
+    if (user.id == req.auth.userId || req.auth.role == "admin") {
+      if (user.profilePicture !== null) {
+        let file = user.profilePicture.split("/images")[1];
+        fs.unlink(`images/${file}`, (error) => {
+          if (error) {
+            console.log("failed");
+          }
+          User.updateOne(
+            { userId: req.body.userId },
+            {
+              profilePicture: `${req.protocol}://${req.get("host")}/images/${
+                req.file.filename
+              }`,
+            }
+          );
+        });
+      }
+    }
+  });
 };
