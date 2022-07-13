@@ -1,4 +1,6 @@
 <template>
+<div>
+  
   <div id="nav">
     <ul>
         <li><router-link to="/profile">
@@ -7,6 +9,7 @@
         <li @click="logOut"><font-awesome-icon icon="fa-solid fa-arrow-right-from-bracket" /></li>
         </div>
     </ul>
+  </div>
   </div>
 </template>
 
@@ -36,11 +39,10 @@ ul{
     display: flex;
     justify-content: space-between;
     margin: 10px;
-    padding-right: 10px;
-    width: 10%;
-    float: right;
+    
 }
 li {
+  padding-right: 20px;
     font-size: 20px;
 }
 #logout{

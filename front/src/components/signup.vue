@@ -122,7 +122,7 @@ nav a.router-link-exact-active {
   color: #42b983;
 }
 img{
-  width: 20%;
+  width: 30%;
 }
 .form-group{
     width: 40%;

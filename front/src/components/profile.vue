@@ -1,6 +1,6 @@
 <template>
     <div id="profile">
-        <div>
+        <div id="nav">
             <Nav />
         </div>
         <div id="picture">
@@ -30,3 +30,12 @@ export default {
   },
 };
 </script>
+<style scoped>
+#nav{
+  width: 10%;
+  float: right;
+}
+img{
+  width: 20%;
+}
+</style>
