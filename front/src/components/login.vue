@@ -7,6 +7,9 @@
         </nav>
         <h2>Content de vous revoir !</h2>
         <p>veuillez remplir les champs si dessous</p>
+        <div id="container">
+          
+        
         <Form @submit="handleLogin" :validation-schema="schema">
             <div class="form-group">
                 <label for="email">Email</label>
@@ -30,6 +33,7 @@
                 </div>
             </div>
         </Form>
+        </div>
     </div>
 </template>
 <script>
@@ -90,10 +94,10 @@ export default {
 
 <style scoped>
 nav a{
-    color: black;
+  color: #FD2D01;
 }
 nav a.router-link-exact-active {
-  color: #42b983;
+  color: #FFD7D7;
 }
 img{
   width: 30%;
@@ -102,5 +106,19 @@ img{
     width: 40%;
     margin: auto;
     padding-bottom: 5px;
+}
+.btn-primary{
+  color: #fff;
+  background-color:#4E5166 ;
+  border-color: black;
+}
+.btn-primary:hover{
+  background-color: #FFD7D7;
+}
+#container{
+  border: 1px black solid;
+  width: 40%;
+  margin: auto;
+  background-color: beige;
 }
 </style>

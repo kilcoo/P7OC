@@ -3,10 +3,12 @@
   
   <div id="nav">
     <ul>
-        <li><router-link to="/profile">
+        <li><router-link title="profile" to="/profile">
         <font-awesome-icon icon="fa-solid fa-user" /></router-link></li>
+        <li><router-link title='home' to="/groupomania">
+        <font-awesome-icon icon="fa-solid fa-house" /></router-link></li>
         <div id="logout">
-        <li @click="logOut"><font-awesome-icon icon="fa-solid fa-arrow-right-from-bracket" /></li>
+        <li title="déconnexion" @click="logOut"><font-awesome-icon icon="fa-solid fa-arrow-right-from-bracket" /></li>
         </div>
     </ul>
   </div>
@@ -14,7 +16,6 @@
 </template>
 
 <script>
-import router from '@/router';
 
 
 export default {
@@ -30,7 +31,7 @@ export default {
 
 </script>
 
-<style scoped>
+<style >
 ul{
     list-style-type: none;
     border: 1px blue solid;

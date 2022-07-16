@@ -1,9 +1,7 @@
 const User = require('../models/userModels')                           // on demande d'utiliser le models dans user models
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');                                // on demande d'utiliser bcrypt pour crypter les donnees
-const { modifyPost } = require('./post');
 const auth = require('../middleware/auth');
-const { profile } = require('console');
 
 
 exports.signup = (req, res, next) => {     // un middleware pour pouvoir s'inscrire                         
@@ -45,9 +43,11 @@ exports.login = (req, res, next) => {                                           
           } 
           const userId = user._id
           const role = user.role.toString()
-          res.status(200).json({                 
+          res.status(200).json({ 
+             username : user.username,               
             userId: userId,
             role: role,
+            Email : user.email,
             token: jwt.sign(
               { userId: user._id ,role:role},
               'RANDOM_TOKEN_SECRET',
