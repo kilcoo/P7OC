@@ -52,7 +52,6 @@ export default {
    mounted: function () {
     const query = this.$route.query 
     const id = query.idpost
-    console.log(id)
       axios.get('http://localhost:3000/api/posts/' + id, {
          headers: {
             'Authorization': this.$store.state.auth.user.token
@@ -60,7 +59,6 @@ export default {
       })
          .then(res => {
             this.post = res.data;
-            console.log(this.post)
          })
    },
   computed: {
@@ -72,7 +70,6 @@ export default {
       modifypost() {
         const query = this.$route.query 
     const id = query.idpost
-         console.log(this.files)
          let data = this.files
          if (this.text == "") {
             alert("veuillez entrer un texte")
@@ -100,11 +97,8 @@ export default {
             })
       },
       createfiles(e) {
-         console.log('test')
          const file = e.target.files[0];
          this.files = file;
-         console.log(this.files)
-         console.log(this.text)
       }
    }
 };

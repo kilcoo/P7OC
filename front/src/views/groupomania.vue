@@ -51,7 +51,6 @@
 <script>
 import Nav from '../components/nav.vue';
 import axios from 'axios';
-import { find } from 'lodash';
 
 export default {
    name: "groupomania",
@@ -79,7 +78,6 @@ export default {
       })
          .then(res => {
             this.posts = res.data;
-            console.log(this.posts)
          })
    },
    methods: {
@@ -100,7 +98,6 @@ export default {
          })
             .then(res => {
                this.dataLike = res.data.like
-               console.log(this.dataLike)
                axios.get('http://localhost:3000/api/posts/', {
                   headers: {
                      'Authorization': this.$store.state.auth.user.token
@@ -120,7 +117,6 @@ export default {
          })
             .then(res => {
                this.dataLike = res.data.like
-               console.log(this.dataLike)
                axios.get('http://localhost:3000/api/posts/', {
                   headers: {
                      'Authorization': this.$store.state.auth.user.token
@@ -132,7 +128,6 @@ export default {
             })
       },
       deletePost(id) {
-         console.log(id)
          axios.delete("http://localhost:3000/api/posts/" + id, {
             headers: {
                'Authorization': this.$store.state.auth.user.token
@@ -146,12 +141,10 @@ export default {
                })
                   .then(res => {
                      this.posts = res.data;
-                     console.log(this.posts[0])
                   })
             })
       },
       sendPost() {
-         console.log(this.files)
          let data = this.files
          if (this.text == "") {
             alert("veuillez entrer un texte")
@@ -171,7 +164,6 @@ export default {
                }
             })
             .then(res => {
-               console.log(res)
                axios.get('http://localhost:3000/api/posts/', {
                   headers: {
                      'Authorization': this.$store.state.auth.user.token
@@ -184,11 +176,8 @@ export default {
             })
       },
       createfiles(e) {
-         console.log('test')
          const file = e.target.files[0];
          this.files = file;
-         console.log(this.files)
-         console.log(this.text)
       }
    }
 };
