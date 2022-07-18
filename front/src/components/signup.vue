@@ -5,7 +5,7 @@
                 <router-link to="/login">se connecter</router-link> |
                 <router-link to="/signup">s'inscrire</router-link>
             </nav>
-            <h2>Bienvenue sur Groupomania</h2>
+            <h1>Bienvenue sur Groupomania</h1>
             <p>veuillez remplir les champs si dessous.</p>
             <div id="container">
       <Form @submit="handleRegister" :validation-schema="schema">

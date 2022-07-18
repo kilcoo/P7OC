@@ -1,5 +1,5 @@
 <template>
-  <div id="logo">
+  <div>
   <img src="../assets/icon-left-font-monochrome-black.png" >
   <nav>
     <router-link to="/login">se connecter</router-link> |
@@ -11,10 +11,8 @@
 </template>
 
 <script>
-import logo from "@/components/logo.vue"
+
 export default {
-    components:
-    logo
 }
 </script>
 

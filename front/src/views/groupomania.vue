@@ -1,5 +1,5 @@
 <template>
-   <div>
+   <div id="body">
       <header>
          <img id="logo" src="../assets/icon-left-font-monochrome-black.png">
          <div id="nav">
@@ -10,7 +10,7 @@
          <div id="container">
             <div @submit="sendPost">
                <label for="text"></label>
-               <input v-model="this.text" name="text" id="textpost" placeholder="Quoi de neuf ?" />
+               <textarea v-model="this.text" name="text" id="textpost" placeholder="Quoi de neuf ?" />
                <div>
                   <label for="image"></label>
                   <input @change="createfiles" name="image" type="file" id="imagepost" />
@@ -24,20 +24,21 @@
                <p>Auteur: {{ post.username }}</p>
                <button v-if="post.username == currentUser.username || currentUser.role == 'admin'"
                   @click="this.deletePost(post._id)">supprimer</button>
-               <button>modifier</button>
+               <button v-if="post.username == currentUser.username || currentUser.role == 'admin'"
+                @click="edit(post._id)">modifier</button>
             </div>
             <div id="text">
                <p>{{ post.contents }}</p>
             </div>
             <div id="divimage">
-               <img id="image" :src="`${post.imageUrl}`">
+               <img v-if="post.imageUrl != undefined " id="image" :src="`${post.imageUrl}`">
             </div>
             <div id="like">
                <p>Like: {{ post.likes }} Dislike: {{ post.dislikes }}</p>
-               <button v-if="dataLike != '-1'" @click="like(post._id)">
+               <button  @click="like(post._id)">
                   <font-awesome-icon id="like1" icon="fa-solid fa-thumbs-up" />
                </button>
-               <button v-if="dataLike != '1'" @click="dislike(post._id)">
+               <button  @click="dislike(post._id)">
                   <font-awesome-icon id="like2" icon="fa-solid fa-thumbs-down" />
                </button>
             </div>
@@ -49,8 +50,8 @@
 
 <script>
 import Nav from '../components/nav.vue';
-import Logo from '../components/logo.vue';
 import axios from 'axios';
+import { find } from 'lodash';
 
 export default {
    name: "groupomania",
@@ -69,7 +70,6 @@ export default {
    },
    components: {
       Nav,
-      Logo,
    },
    mounted: function () {
       axios.get('http://localhost:3000/api/posts/', {
@@ -79,11 +79,20 @@ export default {
       })
          .then(res => {
             this.posts = res.data;
+            console.log(this.posts)
          })
    },
    methods: {
+      edit(id){
+         this.$router.push({
+            path: '/editpost',
+            query: {idpost: `${id}`}
+         })
+      },
       like(id) {
          let data = this.$store.state.auth.user;
+         // const find =
+         // if (userId )
          axios.post(`http://localhost:3000/api/posts/${data.userId}/${id}`, {type: "1"}, {
             headers: {
                'Authorization': this.$store.state.auth.user.token
@@ -148,10 +157,6 @@ export default {
             alert("veuillez entrer un texte")
             return
          }
-         if (this.files == "") {
-            alert("veuillez choisir une image")
-            return
-         }
          let formData = new FormData()
          formData.append("userId", this.$store.state.auth.user.userId)
          formData.append("username", this.$store.state.auth.user.username)
@@ -193,27 +198,32 @@ export default {
 <style scoped>
 #postContainer {
    margin: auto;
-   width: 50%;
-   border: 1px black solid;
-   border-radius: 8px;
-   box-shadow: 5px -3px 5px 0px rgba(0,0,0,0.75);
+   width: 45%;
+   border-radius: 25px;
+background: #e0e0e0;
+box-shadow:  20px 20px 60px #bebebe,
+             -20px -20px 60px #ffffff;
+   margin-bottom: 3em;
 }
-
 #creatorname {
-   border: 1px black solid;
    border-radius: 8px;
    width: 25%;
    float: left;
 }
 #creatorname button{
    width: 50%;
+   border-radius: 5px;
 }
 
 #like {
    font-size: 25px;
-   border: 1px black solid;
+   border-radius: 0;
    justify-content: space-around;
    display: flex;
+}
+#like button {
+   border: none;
+   background: none;
 }
 
 #divimage {
@@ -229,7 +239,8 @@ export default {
 
 #logo {
    width: 20%;
-   margin: auto;
+   margin-left: auto;
+   margin-right: 39%;
    padding-bottom: 40px;
 }
 
@@ -243,11 +254,9 @@ header {
   border-radius: 8px;
   padding: 2%;
   border: 1px black solid;
-  background-color: beige;
+  background-color:#FFD7D7;
 }
-#send:hover{
-  size: 105%;
-}
+
 #imagepost {
   margin-top: 2%;
 }
@@ -264,4 +273,11 @@ input[type=submit] {
   margin-top: 5%;
   cursor: pointer;
 }
+textarea {
+  resize: none;
+}
+#body{
+   height: 100vh;
+}
+
 </style>

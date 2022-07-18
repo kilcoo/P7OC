@@ -39,7 +39,7 @@ exports.modifyPost = (req, res, next) => {
     }
     const thingObject = req.file ?
     {
-      ...JSON.parse(req.body.post),           
+      ...req.body,           
       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : { ...JSON.parse(req.body.post) };
   Post.updateOne({ _id: req.params.id }, { ...thingObject, _id: req.params.id })

@@ -31,20 +31,18 @@ export default {
 
 </script>
 
-<style >
+<style scoped>
 ul{
     list-style-type: none;
     border: 1px blue solid;
     background-color: beige;
     border-radius: 15px;
     display: flex;
-    justify-content: space-between;
-    margin: 10px;
-    
+    justify-content: space-around;
 }
 li {
-  padding-right: 20px;
     font-size: 20px;
+    margin-right: 5px;
 }
 #logout{
     cursor: pointer;
