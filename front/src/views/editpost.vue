@@ -4,6 +4,7 @@
             <div id="nav">
              <Nav/>   
             </div>
+            <br>
         <h1>modification de post</h1>  
         </div>
         <div id='postContainer'>
@@ -173,6 +174,34 @@ input[type=submit] {
 }
 textarea {
   resize: none;
+}
+@media screen and ( max-width: 667px) {
+   #nav {
+      width: 100%;
+   }
+   h1{
+      margin: auto;
+   }
+   #container {
+      width: 90%;
+   }
+   #postContainer{
+      width: 100%;
+   }
+}
+@media screen and (min-width: 668px) and (max-width: 992px) {
+   #nav {
+      width: 100%;
+   }
+   h1{
+      margin: auto;
+   }
+   #container {
+      width: 90%;
+   }
+   #postContainer{
+      width: 100%;
+   }
 }
 </style>
 

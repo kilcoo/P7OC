@@ -2,10 +2,10 @@
    <div id="body">
       <header>
          <img id="logo" src="../assets/icon-left-font-monochrome-black.png">
-         <div id="nav">
-            <Nav />
-         </div>
       </header>
+      <div id="nav">
+         <Nav />
+      </div>
       <div>
          <div id="container">
             <div @submit="sendPost">
@@ -21,24 +21,24 @@
          <br>
          <div v-for="post in posts.slice().reverse()" :key="post._id" id='postContainer'>
             <div id="creatorname">
-               <p>Auteur: {{ post.username }}</p>
+               <p>{{ post.username }}</p>
                <button v-if="post.username == currentUser.username || currentUser.role == 'admin'"
                   @click="this.deletePost(post._id)">supprimer</button>
                <button v-if="post.username == currentUser.username || currentUser.role == 'admin'"
-                @click="edit(post._id)">modifier</button>
+                  @click="edit(post._id)">modifier</button>
             </div>
             <div id="text">
                <p>{{ post.contents }}</p>
             </div>
             <div id="divimage">
-               <img v-if="post.imageUrl != undefined " id="image" :src="`${post.imageUrl}`">
+               <img v-if="post.imageUrl != undefined" id="image" :src="`${post.imageUrl}`">
             </div>
             <div id="like">
                <p>Like: {{ post.likes }} Dislike: {{ post.dislikes }}</p>
-               <button  @click="like(post._id)">
+               <button v-if="dataLike != '-1'" @click="like(post._id)">
                   <font-awesome-icon id="like1" icon="fa-solid fa-thumbs-up" />
                </button>
-               <button  @click="dislike(post._id)">
+               <button v-if="dataLike != '1'" @click="dislike(post._id)">
                   <font-awesome-icon id="like2" icon="fa-solid fa-thumbs-down" />
                </button>
             </div>
@@ -88,9 +88,7 @@ export default {
          })
       },
       like(id) {
-         let data = this.$store.state.auth.user;
-         // const find =
-         // if (userId )
+            let data = this.$store.state.auth.user;
          axios.post(`http://localhost:3000/api/posts/${data.userId}/${id}`, {type: "1"}, {
             headers: {
                'Authorization': this.$store.state.auth.user.token
@@ -106,7 +104,7 @@ export default {
                   .then(res => {
                      this.posts = res.data;
                   })
-            })
+            }) 
       },
       dislike(id) {
          let data = this.$store.state.auth.user;
@@ -185,13 +183,16 @@ export default {
 </script>
 
 <style scoped>
+#nav {
+   margin: auto;
+   width: 40%;
+}
 #postContainer {
    margin: auto;
    width: 45%;
    border-radius: 25px;
-background: #e0e0e0;
-box-shadow:  20px 20px 60px #bebebe,
-             -20px -20px 60px #ffffff;
+   background: #e0e0e0;
+   box-shadow:  20px 20px 60px #bebebe,-20px -20px 60px #ffffff;
    margin-bottom: 3em;
 }
 #creatorname {
@@ -228,9 +229,7 @@ box-shadow:  20px 20px 60px #bebebe,
 
 #logo {
    width: 20%;
-   margin-left: auto;
-   margin-right: 39%;
-   padding-bottom: 40px;
+   margin-left: 40em;
 }
 
 header {
@@ -268,5 +267,35 @@ textarea {
 #body{
    height: 100vh;
 }
-
+@media screen and ( max-width: 667px) {
+   #nav {
+      width: 100%;
+   }
+   #logo {
+      margin-left: 4em;
+      width: 60%;
+   }
+   #container {
+      width: 90%;
+   }
+   #postContainer{
+      width: 100%;
+   }
+   #creatorname button {
+      font-size: 11px;
+      padding-right: 25px;
+   }
+}
+@media screen and (min-width: 668px) and (max-width: 970px) {
+  #logo {
+      margin-left: 12em;
+      width: 40%;
+   }
+   #container {
+      width: 90%;
+   }
+   #postContainer{
+      width: 100%;
+   }
+}
 </style>

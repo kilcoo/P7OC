@@ -120,4 +120,17 @@ img{
   margin: auto;
   background-color: beige;
 }
+@media screen and ( max-width: 667px) {
+  #container {
+    width: 80%;
+  }
+  img {
+    width: 50%;
+  }
+}
+@media screen and (min-width: 668px) and (max-width: 992px) {
+  #container {
+    width: 80%;
+  }
+}
 </style>
