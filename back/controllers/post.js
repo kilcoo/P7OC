@@ -60,16 +60,16 @@ exports.deletePost = (req, res, next) => {
   Post.findById(req.params.id)
         .then(post => {
             if (post.userId == req.auth.userId || req.auth.role == "admin") {
-                if (req.body.imageUrl) {
-                    const filename = post.imageUrl.split("/images/")[1];
-                    fs.unlink(`images/${filename}`, (err) => {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            console.log('This image is deleted');
-                        };
-                    });
-                };
+              if(post.imageUrl) {
+                const filename = post.imageUrl.split("/images/")[1];
+                fs.unlink(`images/${filename}`, (err) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log('This image is deleted');
+                    };
+                });
+              }
                 Post.deleteOne({_id:req.params.id})
                     .then(() => res.status(200).json({ message: "Post deleted." }))
                     .catch(error => res.status(400).json({ error }));

@@ -13,7 +13,8 @@
                <textarea v-model="this.text" name="text" id="textpost" placeholder="Quoi de neuf ?" />
                <div>
                   <label for="image"></label>
-                  <input @change="createfiles" name="image" type="file" id="imagepost" />
+                  <input @change="createfiles" name="image" type="file" id="imagepost"
+                  ref="imageUpload" />
                </div>
                <input @click="sendPost" type="submit" />
             </div>
@@ -34,12 +35,16 @@
                <img v-if="post.imageUrl != undefined" id="image" :src="`${post.imageUrl}`">
             </div>
             <div id="like">
-               <p>Like: {{ post.likes }} Dislike: {{ post.dislikes }}</p>
-               <button v-if="dataLike != '-1'" @click="like(post._id)">
-                  <font-awesome-icon id="like1" icon="fa-solid fa-thumbs-up" />
+               <p>Like: {{ post.likes }} Dislike: {{ post.dislikes }} </p>
+               <button @click="like(post._id)">
+                  <font-awesome-icon id="like1"
+                     :class="[{likeActive: post.usersLiked.find(id => id === currentUserId)}, like]"
+                     icon="fa-solid fa-thumbs-up" />
                </button>
-               <button v-if="dataLike != '1'" @click="dislike(post._id)">
-                  <font-awesome-icon id="like2" icon="fa-solid fa-thumbs-down" />
+               <button @click="dislike(post._id)">
+                  <font-awesome-icon id="like2"
+                     :class="[{dislikeActive: post.usersDisliked.find(id => id === currentUserId)}, like]"
+                     icon="fa-solid fa-thumbs-down" />
                </button>
             </div>
          </div>
@@ -64,7 +69,8 @@ export default {
          dataLike : "0",
          posts: [],
          text: "",
-         files: ""
+         files: "",
+         currentUserId: this.$store.state.auth.user.userId,
       };
    },
    components: {
@@ -170,6 +176,8 @@ export default {
                   .then(res => {
                      this.posts = res.data;
                      this.text = "";
+                     this.$refs.imageUpload.value = null;
+                     this.files = null;
                   })
             })
       },
@@ -266,6 +274,15 @@ textarea {
 }
 #body{
    height: 100vh;
+}
+.like {
+   color: black;
+}
+.likeActive {
+   color: rgb(8, 107, 8);
+}
+.dislikeActive {
+   color: rgb(180, 21, 21);
 }
 @media screen and ( max-width: 667px) {
    #nav {

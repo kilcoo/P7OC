@@ -9,10 +9,18 @@ exports.likeDislike = (req, res, next) => {
     .then((post) => {
       if (type == "1") {
         if (!post.usersLiked.includes(req.params.userId)) {
-          update = {
-            $inc: { likes: 1 },
-            $push: { usersLiked: req.params.userId },
-          };
+          if(post.usersDisliked.includes(req.params.userId)) {
+            update = {
+              $inc: { likes: 1, dislikes: -1 },
+              $push: { usersLiked: req.params.userId },
+              $pull: { usersDisliked: req.params.userId }
+            };
+          } else {
+            update = {
+              $inc: { likes: 1 },
+              $push: { usersLiked: req.params.userId },
+            };
+          }
           like = 1;
         } else if (post.usersLiked.includes(req.params.userId)) {
           update = {
@@ -24,10 +32,18 @@ exports.likeDislike = (req, res, next) => {
       }
       if (type == "2") {
         if (!post.usersDisliked.includes(req.params.userId)) {
-          update = {
-            $inc: { dislikes: 1 },
-            $push: { usersDisliked: req.params.userId },
-          };
+          if (post.usersLiked.includes(req.params.userId)) {
+            update = {
+              $inc: { dislikes: 1, likes: -1 },
+              $push: { usersDisliked: req.params.userId },
+              $pull: { usersLiked: req.params.userId },
+            };
+          } else {
+            update = {
+              $inc: { dislikes: 1 },
+              $push: { usersDisliked: req.params.userId },
+            };
+          }
           like = -1;
         } else if (post.usersDisliked.includes(req.params.userId)) {
           update = {
