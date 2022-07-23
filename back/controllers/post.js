@@ -25,23 +25,24 @@ exports.createPost = (req, res, next) => {                               // on c
 
 
 exports.modifyPost = (req, res, next) => {
+  console.log(req.body.contents);
   Post.findById(req.params.id).then((post) => {
      if(post.userId != req.auth.userId && req.auth.role != "admin"){
     return res.status(401).json({ message: "vous n'avez pas les droits" });
-  }else{
-    if(post.imageUrl !== null && req.file ){
-      let file = post.imageUrl.split("/images")[1]
-      fs.unlink(`images/${file}`,(error) => {
-        if(error){
-          console.log("failed")
-        }
-      })
-    }
+    }else{
+      if(req.file && post.imageUrl) {
+        let file = post.imageUrl.split("/images")[1]
+        fs.unlink(`images/${file}`,(error) => {
+          if(error){
+            console.log("failed")
+          }
+        })
+      }
     const thingObject = req.file ?
     {
       ...req.body,           
       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    } : { ...JSON.parse(req.body.post) };
+    } : { ...req.body };
   Post.updateOne({ _id: req.params.id }, { ...thingObject, _id: req.params.id })
     .then(() => res.status(200).json({ message: 'Publication modifié !'}))
     .catch(error => res.status(400).json({ error }));

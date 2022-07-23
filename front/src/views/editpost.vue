@@ -69,22 +69,23 @@ export default {
   },
    methods: {
       modifypost() {
-        const query = this.$route.query 
-    const id = query.idpost
+         const query = this.$route.query 
+         const id = query.idpost
          let data = this.files
-         if (this.text == "") {
-            alert("veuillez entrer un texte")
+         if (this.text == "" && this.files == "") {
+            alert("veuillez entrer au moins une modification")
             return
          }
-         if (this.files == "") {
-            alert("veuillez choisir une image")
-            return
-         }
+         
          let formData = new FormData()
          formData.append("userId", this.$store.state.auth.user.userId)
          formData.append("username", this.$store.state.auth.user.username)
-         formData.append("contents", this.text)
-         formData.append("file", data)
+         if(this.text) {
+            formData.append("contents", this.text)
+         }
+         if(data) {
+            formData.append("file", data)
+         }
          const url = `http://localhost:3000/api/posts/${id}`
          axios.put(url, formData,
 
